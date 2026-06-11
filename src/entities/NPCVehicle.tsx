@@ -20,11 +20,12 @@ export function NPCVehicle({ id, color, startX, startZ, horizontal, type = 'seda
   const positionRef = useRef({ x: startX, z: startZ })
   const speedRef = useRef(10 + Math.random() * 5)
   const stoppedRef = useRef(false)
+  const rollRef = useRef(0)
 
-  const { registerNPC, updateNPC, npcVehicles } = useCollisionStore()
+  const { registerNPC, updateNPC, npcVehicles, getCollisionInfo } = useCollisionStore()
 
   useEffect(() => {
-    registerNPC(`npc-${id}`, [startX, 0, startZ], 2.5)
+    registerNPC(`npc-${id}`, [startX, 0, startZ], 2.5, speedRef.current)
 
     if (groupRef.current) {
       let car: THREE.Group
@@ -59,6 +60,33 @@ export function NPCVehicle({ id, color, startX, startZ, horizontal, type = 'seda
       obstacles
     )
 
+    // 碰撞检测和物理响应
+    const collision = getCollisionInfo(
+      [positionRef.current.x, 1.5, positionRef.current.z],
+      2.5,
+      `npc-${id}`
+    )
+
+    if (collision && collision.object.speed !== undefined) {
+      const otherSpeed = collision.object.speed || 0
+      const speedDiff = speedRef.current - otherSpeed
+
+      if (speedDiff > 0) {
+        // 撞击其他车：减速，可能翻车
+        speedRef.current *= 0.7
+        rollRef.current += speedDiff * 0.02
+      } else if (speedDiff < -5) {
+        // 被撞击：大幅减速甚至停止
+        speedRef.current = Math.max(0, speedRef.current - speedDiff * 0.3)
+        rollRef.current -= Math.abs(speedDiff) * 0.015
+      }
+
+      // 碰撞时弹开
+      const pushBack = new THREE.Vector3(collision.direction[0], 0, collision.direction[1]).multiplyScalar(0.5)
+      positionRef.current.x -= pushBack.x
+      positionRef.current.z -= pushBack.z
+    }
+
     if (hasObstacle) {
       stoppedRef.current = true
     } else {
@@ -77,8 +105,10 @@ export function NPCVehicle({ id, color, startX, startZ, horizontal, type = 'seda
     const terrainHeight = getTerrainHeight(positionRef.current.x, positionRef.current.z)
     groupRef.current.position.set(positionRef.current.x, terrainHeight + 1.5, positionRef.current.z)
     groupRef.current.rotation.y = angle
+    groupRef.current.rotation.z = rollRef.current
+    rollRef.current *= 0.95
 
-    updateNPC(`npc-${id}`, [positionRef.current.x, terrainHeight + 1.5, positionRef.current.z])
+    updateNPC(`npc-${id}`, [positionRef.current.x, terrainHeight + 1.5, positionRef.current.z], speedRef.current)
   })
 
   return (

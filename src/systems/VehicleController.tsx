@@ -41,8 +41,8 @@ export function VehicleController({ bodyRef }: VehicleControllerProps) {
     if (!bodyRef.current) return
 
     const body = bodyRef.current
-    let acceleration = 30
-    let maxSpeed = 60
+    let acceleration = 60
+    let maxSpeed = 120
     const turnSpeed = 2.5
     const friction = 0.95
     const driftMinSpeed = 15
@@ -52,8 +52,8 @@ export function VehicleController({ bodyRef }: VehicleControllerProps) {
     const isNitro = keys.current['shift'] && nitroAmount > 0
 
     if (isNitro) {
-      acceleration = 80
-      maxSpeed = 120
+      acceleration = 150
+      maxSpeed = 200
       setUsingNitro(true)
       setNitro(Math.max(0, nitroAmount - delta * 20))
     } else {
