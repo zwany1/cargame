@@ -1,30 +1,33 @@
-export function Roads() {
-  return (
-    <group>
-      {Array.from({ length: 11 }).map((_, i) => {
-        const pos = (i - 5) * 100
-        return (
-          <group key={i}>
-            <mesh position={[pos, 0.02, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-              <planeGeometry args={[10, 1000]} />
-              <meshStandardMaterial color="#5a5a5a" flatShading />
-            </mesh>
-            <mesh position={[0, 0.02, pos]} rotation={[-Math.PI / 2, 0, 0]}>
-              <planeGeometry args={[1000, 10]} />
-              <meshStandardMaterial color="#5a5a5a" flatShading />
-            </mesh>
+import { useMemo } from 'react'
+import * as THREE from 'three'
 
-            <mesh position={[pos, 0.03, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-              <planeGeometry args={[0.3, 1000]} />
-              <meshStandardMaterial color="#ffffff" flatShading />
-            </mesh>
-            <mesh position={[0, 0.03, pos]} rotation={[-Math.PI / 2, 0, 0]}>
-              <planeGeometry args={[1000, 0.3]} />
-              <meshStandardMaterial color="#ffffff" flatShading />
-            </mesh>
-          </group>
-        )
-      })}
-    </group>
-  )
+export function Roads() {
+  const roadMesh = useMemo(() => {
+    const group = new THREE.Group()
+
+    const roadPositions: [number, number, number, number][] = []
+    for (let i = 0; i < 11; i++) {
+      const pos = (i - 5) * 100
+      roadPositions.push([pos, 0, 1000, 10])
+      roadPositions.push([0, pos, 1000, 10])
+    }
+
+    roadPositions.forEach(([x, z, length, width]) => {
+      const geo = new THREE.PlaneGeometry(width, length)
+      const mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: '#5a5a5a' }))
+      mesh.position.set(x, 0.02, z)
+      mesh.rotation.x = -Math.PI / 2
+      group.add(mesh)
+
+      const lineGeo = new THREE.PlaneGeometry(0.3, length)
+      const lineMesh = new THREE.Mesh(lineGeo, new THREE.MeshStandardMaterial({ color: '#ffffff' }))
+      lineMesh.position.set(x, 0.03, z)
+      lineMesh.rotation.x = -Math.PI / 2
+      group.add(lineMesh)
+    })
+
+    return group
+  }, [])
+
+  return <primitive object={roadMesh} attach="children" />
 }
