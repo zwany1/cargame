@@ -18,18 +18,22 @@ export function TrafficLight({ position }: TrafficLightProps) {
     const cycle = timerRef.current % 12
 
     if (redRef.current && yellowRef.current && greenRef.current) {
+      const redMat = redRef.current.material as THREE.MeshStandardMaterial
+      const yellowMat = yellowRef.current.material as THREE.MeshStandardMaterial
+      const greenMat = greenRef.current.material as THREE.MeshStandardMaterial
+
       if (cycle < 5) {
-        redRef.current.material.emissiveIntensity = 1
-        yellowRef.current.material.emissiveIntensity = 0
-        greenRef.current.material.emissiveIntensity = 0
+        redMat.emissiveIntensity = 1
+        yellowMat.emissiveIntensity = 0
+        greenMat.emissiveIntensity = 0
       } else if (cycle < 6) {
-        redRef.current.material.emissiveIntensity = 0
-        yellowRef.current.material.emissiveIntensity = 1
-        greenRef.current.material.emissiveIntensity = 0
+        redMat.emissiveIntensity = 0
+        yellowMat.emissiveIntensity = 1
+        greenMat.emissiveIntensity = 0
       } else {
-        redRef.current.material.emissiveIntensity = 0
-        yellowRef.current.material.emissiveIntensity = 0
-        greenRef.current.material.emissiveIntensity = 1
+        redMat.emissiveIntensity = 0
+        yellowMat.emissiveIntensity = 0
+        greenMat.emissiveIntensity = 1
       }
     }
   })

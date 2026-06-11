@@ -1,5 +1,6 @@
 import { useFrame } from '@react-three/fiber'
 import { useTimeStore } from '@/stores/timeStore'
+import * as THREE from 'three'
 
 export function DayNightCycle() {
   const { time, dayPhase, update } = useTimeStore()
@@ -16,23 +17,25 @@ export function DayNightCycle() {
         100
       )
 
+      const sunLight = sun as THREE.DirectionalLight
       if (dayPhase === 'day') {
-        sun.intensity = 1.5
+        sunLight.intensity = 1.5
       } else if (dayPhase === 'dusk') {
-        sun.intensity = 0.8
+        sunLight.intensity = 0.8
       } else {
-        sun.intensity = 0.3
+        sunLight.intensity = 0.3
       }
     }
 
     const ambientLight = state.scene.children.find((c) => c.type === 'AmbientLight')
     if (ambientLight) {
+      const ambLight = ambientLight as THREE.AmbientLight
       if (dayPhase === 'day') {
-        ambientLight.intensity = 0.6
+        ambLight.intensity = 0.6
       } else if (dayPhase === 'dusk') {
-        ambientLight.intensity = 0.4
+        ambLight.intensity = 0.4
       } else {
-        ambientLight.intensity = 0.2
+        ambLight.intensity = 0.2
       }
     }
 
@@ -41,7 +44,9 @@ export function DayNightCycle() {
       dusk: 0xff6b4a,
       night: 0x0a0a1a
     }
-    state.scene.background?.set(bgColors[dayPhase])
+    if (state.scene.background instanceof THREE.Color) {
+      state.scene.background.set(bgColors[dayPhase])
+    }
   })
 
   return null

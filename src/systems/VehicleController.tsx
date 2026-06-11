@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { useVehicleStore } from '@/stores/vehicleStore'
-import { useCollisionStore } from '@/stores/collisionStore'
-import { getTerrainHeight, getTerrainNormal } from '@/utils/terrain'
+import { getTerrainHeight } from '@/utils/terrain'
 import * as THREE from 'three'
 
 interface VehicleControllerProps {
@@ -43,7 +42,6 @@ export function VehicleController({ bodyRef }: VehicleControllerProps) {
 
     const body = bodyRef.current
     let acceleration = 30
-    const brakeForce = 50
     let maxSpeed = 60
     const turnSpeed = 2.5
     const friction = 0.95

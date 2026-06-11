@@ -1,10 +1,9 @@
-import { useRef, useMemo, useEffect } from 'react'
-import { useFrame, useThree } from '@react-three/fiber'
+import { useRef, useEffect } from 'react'
+import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import { getTerrainHeight } from '@/utils/terrain'
-import { isOnRoad, getTrafficLightState, checkObstacle } from '@/utils/traffic'
+import { checkObstacle } from '@/utils/traffic'
 import { useCollisionStore } from '@/stores/collisionStore'
-import { useTimeStore } from '@/stores/timeStore'
 import { createSedan, createSUV, createPickup, createBus } from '@/utils/carModels'
 
 interface NPCVehicleProps {
@@ -23,7 +22,6 @@ export function NPCVehicle({ id, color, startX, startZ, horizontal, type = 'seda
   const stoppedRef = useRef(false)
 
   const { registerNPC, updateNPC, npcVehicles } = useCollisionStore()
-  const time = useTimeStore((state) => state.time)
 
   useEffect(() => {
     registerNPC(`npc-${id}`, [startX, 0, startZ], 2.5)

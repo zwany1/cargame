@@ -13,33 +13,8 @@ function RoundTree({ position }: { position: [number, number, number] }) {
   )
 }
 
-function ConeTree({ position }: { position: [number, number, number] }) {
-  return (
-    <group position={position}>
-      <mesh position={[0, 2, 0]} castShadow>
-        <cylinderGeometry args={[0.3, 0.4, 4, 8]} />
-        <meshStandardMaterial color="#6b4423" flatShading />
-      </mesh>
-      <mesh position={[0, 6, 0]} castShadow>
-        <coneGeometry args={[2, 8, 8]} />
-        <meshStandardMaterial color="#3a6c2b" flatShading />
-      </mesh>
-    </group>
-  )
-}
-
-function Bush({ position }: { position: [number, number, number] }) {
-  return (
-    <mesh position={position} castShadow>
-      <sphereGeometry args={[1, 6, 6]} />
-      <meshStandardMaterial color="#5a8c4b" flatShading />
-    </mesh>
-  )
-}
-
 export function Trees() {
   const roundTrees: [number, number, number][] = []
-  const coneTrees: [number, number, number][] = []
 
   for (let i = 0; i < 360; i += 60) {
     const angle = (i * Math.PI) / 180

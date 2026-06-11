@@ -29,8 +29,9 @@ export function DriftSmoke({ bodyRef, wheelPositions, isDrifting }: DriftSmokePr
         spawnTimer.current = 0
 
         // 后轮位置（索引 2 和 3）
-        [2, 3].forEach((i) => {
-          const worldPos = wheelPositions[i].clone()
+        const rearIndices = [2, 3]
+        rearIndices.forEach((wheelIndex: number) => {
+          const worldPos = wheelPositions[wheelIndex].clone()
           bodyRef.current!.localToWorld(worldPos)
 
           particles.current.push({

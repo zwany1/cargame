@@ -1,5 +1,4 @@
 import { Canvas } from '@react-three/fiber'
-import { Sky } from '@react-three/drei'
 import { Vehicle } from '@/entities/Vehicle'
 import { Terrain } from '@/components/Terrain'
 import { Trees } from '@/components/Trees'

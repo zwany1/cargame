@@ -11,7 +11,7 @@ export function Vehicle() {
   const bodyRef = useRef<THREE.Group>(null)
   const { scene } = useGLTF('/2021_lamborghini_countach_lpi_800-4.glb')
   const [wheelPositions, setWheelPositions] = useState<THREE.Vector3[]>([])
-  const isDrifting = useVehicleStore((state) => state.drifting)
+  const isDrifting = useVehicleStore((state) => state.isDrifting)
   const [spawnPosition] = useState(() => {
     // 随机选择一条公路
     const roads = [

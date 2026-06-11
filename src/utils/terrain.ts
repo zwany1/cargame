@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-export function getTerrainHeight(x: number, z: number): number {
+export function getTerrainHeight(_x: number, _z: number): number {
   return 0
 }
 

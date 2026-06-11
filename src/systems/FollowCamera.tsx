@@ -6,8 +6,8 @@ import * as THREE from 'three'
 export function FollowCamera() {
   const { camera } = useThree()
   const bodyRef = useVehicleStore((state) => state.bodyRef)
-  const isDrifting = useVehicleStore((state) => state.drifting)
-  const isNitro = useVehicleStore((state) => state.usingNitro)
+  const isDrifting = useVehicleStore((state) => state.isDrifting)
+  const isNitro = useVehicleStore((state) => state.isUsingNitro)
   const speed = useVehicleStore((state) => state.speed)
 
   const currentPosition = useRef(new THREE.Vector3(0, 10, 20))

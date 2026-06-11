@@ -1,31 +1,3 @@
-function FerrisWheel({ position }: { position: [number, number, number] }) {
-  return (
-    <group position={position}>
-      <mesh position={[0, 10, 0]} castShadow>
-        <cylinderGeometry args={[0.5, 0.5, 20, 8]} />
-        <meshStandardMaterial color="#c85a3a" flatShading />
-      </mesh>
-
-      <mesh position={[0, 20, 0]} rotation={[0, 0, Math.PI / 4]}>
-        <torusGeometry args={[8, 0.4, 8, 8]} />
-        <meshStandardMaterial color="#e8b86d" flatShading />
-      </mesh>
-
-      {Array.from({ length: 8 }).map((_, i) => {
-        const angle = (i * Math.PI * 2) / 8
-        const x = Math.cos(angle) * 8
-        const y = 20 + Math.sin(angle) * 8
-        return (
-          <mesh key={i} position={[x, y, 0]} castShadow>
-            <boxGeometry args={[1.5, 2, 1.5]} />
-            <meshStandardMaterial color="#ff6b9d" flatShading />
-          </mesh>
-        )
-      })}
-    </group>
-  )
-}
-
 function StreetLamp({ position }: { position: [number, number, number] }) {
   return (
     <group position={position}>

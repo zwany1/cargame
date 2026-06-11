@@ -15,7 +15,6 @@ export function isOnRoad(x: number, z: number): boolean {
 
 export function getNearestRoadPoint(x: number, z: number): [number, number] {
   const gridSize = 100
-  const roadWidth = 5
 
   const xGrid = Math.round(x / gridSize) * gridSize
   const zGrid = Math.round(z / gridSize) * gridSize

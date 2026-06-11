@@ -1,7 +1,6 @@
 import { useEffect, useMemo } from 'react'
 import { useVehicleStore } from '@/stores/vehicleStore'
 import { useExplorationStore } from '@/stores/explorationStore'
-import { scatterPoints } from '@/utils/worldGenerator'
 import type { ExplorationPoint } from '@/types'
 
 export function ExplorationPoints() {
